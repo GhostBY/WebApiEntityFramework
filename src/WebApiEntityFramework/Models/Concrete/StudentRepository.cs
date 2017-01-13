@@ -9,29 +9,41 @@ namespace WebApiEntityFramework.Models.Concrete
 {
     public class StudentRepository : IStudentRepository
     {
+        static List<Student> StudentList = new List<Student>();
         public void Add(Student student)
         {
-            throw new NotImplementedException();
+            StudentList.Add(student);
         }
 
         public void Delete(string id)
         {
-            throw new NotImplementedException();
+            var itemToRemove = StudentList.SingleOrDefault(r => r.Telephone == id);
+            if (itemToRemove != null)
+            {
+                StudentList.Remove(itemToRemove);
+            }
         }
 
         public Student Find(string key)
         {
-            throw new NotImplementedException();
+            return StudentList.Where(e => e.Telephone.Equals(key)).SingleOrDefault();
         }
 
         public IEnumerable<Student> GetAll()
         {
-            throw new NotImplementedException();
+            return StudentList;
         }
 
         public void Update(Student student)
         {
-            throw new NotImplementedException();
+            var itemToUpdate = StudentList.SingleOrDefault(r => r.Telephone ==student.Telephone);
+            if (itemToUpdate != null)
+            {
+                itemToUpdate.Name = student.Name;
+                itemToUpdate.Surname = student.Surname;
+                itemToUpdate.Telephone = student.Telephone;
+                itemToUpdate.Mail = student.Mail;
+            }
         }
     }
 }
