@@ -7,6 +7,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using WebApiEntityFramework.Models.Abstract;
+using WebApiEntityFramework.Models.Concrete;
+using WebApiEntityFramework.Models.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebApiEntityFramework
 {
@@ -29,6 +33,9 @@ namespace WebApiEntityFramework
         {
             // Add framework services.
             services.AddMvc();
+            services.AddSingleton<IStudentRepository, StudentRepository>();
+            services.AddDbContext<StudentContext>(options =>
+             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

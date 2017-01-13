@@ -4,15 +4,22 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebApiEntityFramework.Models.Abstract;
 using WebApiEntityFramework.Models.Entities;
+using WebApiEntityFramework.Models.Context;
 
 namespace WebApiEntityFramework.Models.Concrete
 {
     public class StudentRepository : IStudentRepository
     {
         static List<Student> StudentList = new List<Student>();
+        StudentContext context = new StudentContext();
+        public StudentRepository(StudentContext context)
+        {
+            this.context = context;
+        }
         public void Add(Student student)
         {
-            StudentList.Add(student);
+            context.Students.Add(student);
+            context.SaveChanges();
         }
 
         public void Delete(string id)
@@ -31,7 +38,7 @@ namespace WebApiEntityFramework.Models.Concrete
 
         public IEnumerable<Student> GetAll()
         {
-            return StudentList;
+            return context.Students.ToList();
         }
 
         public void Update(Student student)
