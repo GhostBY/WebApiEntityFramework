@@ -9,8 +9,8 @@ namespace WebApiEntityFramework.Models.Abstract
     {
         IEnumerable<Student> GetAll();
         void Add(Student student);
-        Student Find(string key);
-        void Delete(string id);
+        Student Find(int  StudentID);
+        void Delete(int id);
         void Update(Student student);
     }
 }

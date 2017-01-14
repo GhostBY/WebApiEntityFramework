@@ -22,18 +22,20 @@ namespace WebApiEntityFramework.Models.Concrete
             context.SaveChanges();
         }
 
-        public void Delete(string id)
+        public void Delete(int id)
         {
-            var itemToRemove = StudentList.SingleOrDefault(r => r.Telephone == id);
+            var itemToRemove = context.Students.SingleOrDefault(r => r.StudentID == id);
             if (itemToRemove != null)
             {
-                StudentList.Remove(itemToRemove);
+                context.Remove(itemToRemove);
+                context.SaveChanges();
             }
         }
 
-        public Student Find(string key)
+        public Student Find(int id)
         {
-            return StudentList.Where(e => e.Telephone.Equals(key)).SingleOrDefault();
+            var s1 = context.Students.Where(e => e.StudentID == id).SingleOrDefault();
+            return s1;
         }
 
         public IEnumerable<Student> GetAll()
@@ -43,13 +45,14 @@ namespace WebApiEntityFramework.Models.Concrete
 
         public void Update(Student student)
         {
-            var itemToUpdate = StudentList.SingleOrDefault(r => r.Telephone ==student.Telephone);
+            var itemToUpdate = context.Students.SingleOrDefault(r => r.StudentID ==student.StudentID);
             if (itemToUpdate != null)
             {
                 itemToUpdate.Name = student.Name;
                 itemToUpdate.Surname = student.Surname;
                 itemToUpdate.Telephone = student.Telephone;
                 itemToUpdate.Mail = student.Mail;
+                context.SaveChanges();
             }
         }
     }

@@ -24,5 +24,45 @@ namespace WebApiEntityFramework.Controllers
         {
             return studentrepository.GetAll();
         }
+        [HttpGet("{id}")]
+        public IActionResult GetById(int id)
+        {
+            var item = studentrepository.Find(id);
+            if (item == null)
+            {
+                return NotFound();
+            }
+            return new ObjectResult(item);
+        }
+        [HttpPost]
+        public IActionResult Add([FromBody] Student item)
+        {
+            if (item == null)
+            {
+                return BadRequest();
+            }
+            studentrepository.Add(item);
+            return CreatedAtRoute("GetStudent", new { Controller = "Student", id = item.Telephone }, item);
+        }
+        [HttpDelete("{id}")]
+        public void Delete(int id)
+        {
+            studentrepository.Delete(id);
+        }
+        [HttpPut("{id}")]
+        public IActionResult Update(int id, [FromBody] Student item)
+        {
+            if (item == null)
+            {
+                return BadRequest();
+            }
+            var contactObj = studentrepository.Find(id);
+            if (contactObj == null)
+            {
+                return NotFound();
+            }
+            studentrepository.Update(item);
+            return new NoContentResult();
+        }
     }
 }
